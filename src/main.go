@@ -8,10 +8,14 @@ import (
   "time"
 )
 
+var noteName string
+
 func generateNoteFileTitle() string {
   currentTime := time.Now()
 
-  return currentTime.Format("2006-01-02T15:04:05Z07:00")
+  noteName = currentTime.Format("2006-01-02T15:04:05Z07:00")
+  
+  return noteName
 }
 
 func createNoteFile() (string, error) {
@@ -119,7 +123,7 @@ func commitLastNote(fileName string) error {
     return addingError
   }
 
-  commitMessage := fmt.Sprintf("Added note '%s'", fileName)
+  commitMessage := fmt.Sprintf("Added note '%s'", noteName)
 
   cmd := exec.Command("git", "-C", notesDirectory(), "commit", "-am", commitMessage)
   cmd.Env = append(os.Environ())
@@ -130,7 +134,6 @@ func commitLastNote(fileName string) error {
   err := cmd.Run()
 
   if err != nil {
-    fmt.Println("Deu treta ao commitar")
     return err
   } else {
     return nil
@@ -153,7 +156,7 @@ func main() {
   fmt.Println("Syncing your notes...")
 
   if err := isAGitRepository(); err != nil {
-    fmt.Println("Fudeu bahea")
+    fmt.Println("This is not a valid repository")
   } else {
     if err := syncNotes(); err != nil {
       fmt.Println("Could not sync notes")
