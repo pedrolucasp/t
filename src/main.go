@@ -5,12 +5,13 @@ import (
   "os"
   "io/ioutil"
   "os/exec"
+  "flag"
   "time"
 )
 
 var noteName string
 
-func generateNoteFileTitle() string {
+func generateNoteTitle() string {
   currentTime := time.Now()
 
   noteName = currentTime.Format("2006-01-02T15:04:05Z07:00")
@@ -18,22 +19,25 @@ func generateNoteFileTitle() string {
   return noteName
 }
 
-func createNoteFile() (string, error) {
-  file, err := os.Create(fmt.Sprintf("%s%s.md", notesDirectory(), generateNoteFileTitle()))
+func noteFilePath() string {
+  return fmt.Sprintf("%s%s.md", notesDirectory(), noteName)
+}
 
+func createNoteFile() error {
+  file, err := os.Create(noteFilePath())
+  
   if err != nil {
     fmt.Println("Could not create the file")
     fmt.Println(err)
   }
 
-  fileName := file.Name()
   file.Close()
 
-  return fileName, err
+  return err
 }
 
-func executeEditor(fileName string) error {
-  cmd := exec.Command("vim", fileName)
+func executeEditor() error {
+  cmd := exec.Command("vim", noteFilePath())
   cmd.Stdin  = os.Stdin
   cmd.Stdout = os.Stdout
   cmd.Stderr = os.Stderr
@@ -41,29 +45,24 @@ func executeEditor(fileName string) error {
   return cmd.Run()
 }
 
-func captureText() (string, error) {
+func captureText() error {
   var err error
-  var fileName string 
 
-  fileName, creationErr := createNoteFile()
-  
-  if creationErr != nil {
-    return "", creationErr
-  }
+  fmt.Println("Capturing...")
 
-  if err = executeEditor(fileName); err != nil {
-    return "", err
+  if err = executeEditor(); err != nil {
+    return err
   }
   
-  bytes, err := ioutil.ReadFile(fileName)
+  bytes, err := ioutil.ReadFile(noteFilePath())
 
   if err != nil {
-    return "", err
+    return err
   }
 
   fmt.Println(bytes)
 
-  return fileName, nil
+  return nil
 }
 
 func isAGitRepository() error {
@@ -113,7 +112,7 @@ func addChangedFiles() error {
   return err
 }
 
-func commitLastNote(fileName string) error {
+func commitLastNote() error {
   // TODO: We should pretty format this date
   // Also handle different actions as well
 
@@ -140,29 +139,67 @@ func commitLastNote(fileName string) error {
   }
 }
 
+func create(name string) error {
+  noteName = name
+
+  if err := createNoteFile(); err == nil {
+    if err := captureText(); err != nil {
+      fmt.Println("Could not write to the note")
+      return err
+    } else {
+      sync()
+
+      return nil
+    }  
+  } else {
+    fmt.Println("Could not create the note")
+    return err
+  }
+}
+
+func edit(index int) {
+  fmt.Println("Edit...")
+}
+
+func sync() {
+  fmt.Println("Sync")
+  if err := commitLastNote(); err == nil {
+    if err := syncNotes(); err == nil {
+      fmt.Println("Finished sync :)")
+    } else {
+      fmt.Println("Something wrong happened")
+    }  
+  } else {
+    fmt.Println("Could not commit the note")
+  }
+}
+
 func main() {
-  fmt.Println("Starting...")
-  
-  lastNote, err := captureText()
+  addCommand := flag.NewFlagSet("add", flag.ExitOnError)
+  addCommandName := addCommand.String("name", "", "name")
 
-  fmt.Println(lastNote)
-  
-  if err != nil {
-    panic(err)
-  } else {
-    commitLastNote(lastNote)
-  }
+  editCommand := flag.NewFlagSet("edit", flag.ExitOnError)
+  editCommandIndex := editCommand.Int("index", 0, "index")
 
-  fmt.Println("Syncing your notes...")
-
-  if err := isAGitRepository(); err != nil {
-    fmt.Println("This is not a valid repository")
-  } else {
-    if err := syncNotes(); err != nil {
-      fmt.Println("Could not sync notes")
-      fmt.Println(err)
+  if len(os.Args) > 1 {
+    switch os.Args[1] {
+      case "add":
+        addCommand.Parse(os.Args[2:])
+        if *addCommandName == "" {
+          create(generateNoteTitle())
+        } else {
+          create(*addCommandName)
+        }
+      case "edit":
+        editCommand.Parse(os.Args[2:])
+        fmt.Println("index: ", *editCommandIndex)
+      default:
+        fmt.Println("Will start add process")
+        create(generateNoteTitle())
     }
+  } else {
+    fmt.Println("Start add process")
+    create(generateNoteTitle())
   }
-
-  fmt.Println("Finished...")
+  
 }
