@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "os"
+  "sort"
   "io/ioutil"
   "os/exec"
   "flag"
@@ -157,8 +158,32 @@ func create(name string) error {
   }
 }
 
+func lastModifiedFile() (string, error) {
+  //  path := fmt.Sprintf("%s*.md", notesDirectory())
+
+  files, err := ioutil.ReadDir(notesDirectory())
+  if err != nil {
+    fmt.Println("Fatal", err)
+  }
+
+  //files []File
+
+  sort.Slice(files, func(index, aux int) bool {
+    return files[index].ModTime().After(files[aux].ModTime())
+  })
+
+  for _, file := range files {
+    fmt.Println(file.Name())
+    fmt.Println(file.ModTime())
+  }
+
+  return "", err
+}
+
 func edit(index int) {
   fmt.Println("Edit...")
+
+  lastModifiedFile()
 }
 
 func sync() {
@@ -192,7 +217,7 @@ func main() {
         }
       case "edit":
         editCommand.Parse(os.Args[2:])
-        fmt.Println("index: ", *editCommandIndex)
+        edit(*editCommandIndex)
       default:
         fmt.Println("Will start add process")
         create(generateNoteTitle())
