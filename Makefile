@@ -1,8 +1,15 @@
-PKGNAME = t
-
+PKGNAME = git.sr.ht/~porcellis/t
 GOPATH = $(realpath .go)
+PKGPATH = .go/src/$(PKGNAME)
 
 all: t
 
-t:
-	env go build -o bin/$(PKGNAME) src/main.go
+.go:
+		mkdir -p $(dir $(PKGPATH))
+		ln -fTrs $(realpath .) $(PKGPATH)
+
+t: .go
+	env GOPATH=$(GOPATH) go build -o $@ ./src/main.go
+
+clean:
+	rm -rf .go t
