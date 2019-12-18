@@ -9,7 +9,7 @@ all: t
 		ln -fTrs $(realpath .) $(PKGPATH)
 
 t: .go
-	env GOPATH=$(GOPATH) go build -o $@ ./src/main.go
+	env GOPATH=$(GOPATH) go build -o $@ ./main.go
 
 clean:
 	rm -rf .go t
