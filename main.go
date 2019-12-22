@@ -1,26 +1,25 @@
 package main
 
 import (
-  "fmt"
-  "git.sr.ht/~porcellis/t/models"
-  "git.sr.ht/~porcellis/t/config"
+	"fmt"
+	"git.sr.ht/~porcellis/t/commands"
+	"git.sr.ht/~porcellis/t/config"
 )
 
 func main() {
-  var (
-    n models.Note
-    c *config.TConfig
-  )
+	var (
+		c *config.TConfig
+	)
 
-  c, err := config.Initialize()
-  
-  if err != nil {
-    panic(err)
-  }
+	c, err := config.Initialize()
 
-  fmt.Println(c)
+	if err != nil {
+		panic(err)
+	}
 
-  n = models.Note{"Test", "~/notes/test.md"}
+	err = commands.List(*c)
 
-  fmt.Println(n)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
