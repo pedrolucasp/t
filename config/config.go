@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"os/user"
 	"path"
 )
@@ -24,11 +23,7 @@ func LoadBasicConfiguration() (*TConfig, error) {
 
 	base := path.Join(currentUser.HomeDir, "notes")
 
-	fmt.Println(base)
-
 	config := &TConfig{BasePath: base, GitRemote: "origin"}
-
-	fmt.Println(config)
 
 	return config, err
 }

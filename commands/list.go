@@ -23,9 +23,7 @@ func List(config config.TConfig) error {
 	fmt.Println("\n \t Your notes")
 
 	for index, note := range notes {
-		if index > 0 {
-			fmt.Printf("|#%-6d|\t%6s\t|%6s|\n", index, note.Title(), note.UpdatedAt())
-		}
+		fmt.Printf("|#%-6d|\t%6s\t|%6s|\n", index, note.Title(), note.UpdatedAt())
 	}
 
 	return err
@@ -37,8 +35,6 @@ func BuildList(config config.TConfig) ([]models.Note, error) {
 		notes []models.Note
 	)
 
-	fmt.Println("Listing some stuff")
-
 	files, err := ioutil.ReadDir(config.BasePath)
 
 	sort.Slice(files, func(index, aux int) bool {
@@ -46,9 +42,11 @@ func BuildList(config config.TConfig) ([]models.Note, error) {
 	})
 
 	for _, entry := range files {
-		note := models.Note{Name: entry.Name(), Path: path.Join(config.BasePath, entry.Name()), ModTime: entry.ModTime()}
+		if !entry.IsDir() {
+			note := models.Note{Name: entry.Name(), Path: path.Join(config.BasePath, entry.Name()), ModTime: entry.ModTime()}
 
-		notes = append(notes, note)
+			notes = append(notes, note)
+		}
 	}
 
 	return notes, err
