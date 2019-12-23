@@ -11,5 +11,11 @@ all: t
 t: .go
 	env GOPATH=$(GOPATH) go build -o $@ ./main.go
 
+get: .go
+	env GOPATH=$(GOPATH) go get -d ./...
+
 clean:
-	rm -rf .go t
+	rm -rf t
+
+.PHONY:
+	t get clean
