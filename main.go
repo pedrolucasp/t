@@ -32,7 +32,6 @@ func main() {
 		case 'l':
 			commands.List(*c)
 		case 'c':
-			println("On Create")
 			println(opt.Value)
 
 			var note models.Note
@@ -52,9 +51,10 @@ func main() {
 				panic("We could not invoke your $EDITOR")
 			}
 
-			// We should call sync
-			// commands.Sync()
+			// We should call commit
+			// commands.Commit()
 
+			// commands.Sync()
 			println("Note created", note.Name)
 		case 'd':
 			println("Delete specified")

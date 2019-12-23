@@ -4,10 +4,18 @@ import (
 	"fmt"
 	"git.sr.ht/~porcellis/t/config"
 	"git.sr.ht/~porcellis/t/models"
+	. "github.com/logrusorgru/aurora"
 	"io/ioutil"
+	"os"
 	"path"
 	"sort"
 )
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
 
 func List(config config.TConfig) error {
 	var (
@@ -20,10 +28,18 @@ func List(config config.TConfig) error {
 		return err
 	}
 
-	fmt.Println("\n \t Your notes")
+	fmt.Println(Bold("\n \t Your notes\n\n"))
 
-	for index, note := range notes {
-		fmt.Printf("|#%-6d|\t%6s\t|%6s|\n", index, note.Title(), note.UpdatedAt())
+	for _, note := range notes {
+		fmt.Printf("%s (%s)\n", Bold(note.Title()), Faint(note.UpdatedAt()).BrightYellow())
+
+		f, err := os.Open(note.Path)
+		check(err)
+
+		b1 := make([]byte, 35)
+		n1, err := f.Read(b1)
+		check(err)
+		fmt.Printf("%s\n\n", string(b1[:n1]))
 	}
 
 	return err
