@@ -7,7 +7,16 @@ import (
 )
 
 func Write(note models.Note) error {
-	cmd := exec.Command("vim", note.Path)
+	var (
+		editor string
+	)
+
+	editor = os.Getenv("EDITOR")
+	if editor == "" {
+		editor = "vi"
+	}
+
+	cmd := exec.Command(editor, note.Path)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
