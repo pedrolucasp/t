@@ -21,6 +21,16 @@ When writing a note, `t` will open your `EDITOR` (we recommend vim). As
 soon that you write all you need and quit the app, `t` will push your
 note to the configured git server. That's it.
 
+## Usage
+
+`t` uses a word to handle it's actions.
+
+- `l` will list your notes by it's modification date
+- `c` will create a new note using the current date. You can supply
+a title
+- `e` will edit a note, by default it will edit the last one. You can
+supply an number to be the index.
+
 ## Contributing
 
 Send me an email at
