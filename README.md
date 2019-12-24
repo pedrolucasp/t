@@ -31,6 +31,8 @@ a title
 - `e` will edit a note, by default it will edit the last one. You can
 supply an number to be the index.
 
+You can check the man page `man t`
+
 ## Contributing
 
 Send me an email at
@@ -38,7 +40,7 @@ Send me an email at
 
 ## License
 
-MIT License
+GNU GPL v3 License
 
 
 
