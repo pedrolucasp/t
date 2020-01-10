@@ -31,7 +31,7 @@ a title in quoted strings
 - `e` will edit a note, by default it will edit the last one. You can
 supply a position of the index you want to edit.
 
-You can check the man page `man t`
+You can check the man page `man t` if you need any help.
 
 ## Contributing
 
@@ -45,7 +45,7 @@ hacking!
 Send me your patches to my email at
 [pedrolucasporcellis@gmail.com](mailto:pedrolucasporcellis@gmail.com)
 
-(Remember to use [plain text](https://useplaintext.mail))!
+(Remember to use [plain text](https://useplaintext.email))!
 
 
 ## TODO
