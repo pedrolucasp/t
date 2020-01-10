@@ -33,6 +33,18 @@ supply a position of the index you want to edit.
 
 You can check the man page `man t` if you need any help.
 
+## Installing
+
+For now, you can only install by cloning this repository and running the
+installation script.
+
+So open your favorite terminal and fire these commands:
+- `git clone https://git.sr.ht/~porcellis/t`
+- `make && sudo make install`
+
+If you have any interest in packaging this software to your distro of
+choice, please let me know, so I can update the steps here.
+
 ## Contributing
 
 The plain, good and old git-way of contributing.
@@ -47,8 +59,7 @@ Send me your patches to my email at
 
 (Remember to use [plain text](https://useplaintext.email))!
 
-
-## TODO
+## Roadmap
 
 There's a lot of things I want to implement on `t`, heres some of them:
 
