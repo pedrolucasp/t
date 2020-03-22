@@ -1,37 +1,49 @@
-.TH t 1
+.TH t 1 "21 March 2020" "" "General User Commands"
 .SH NAME
-t \- manage your notes
+\fBt \fP- The simplest note taker
 .SH SYNOPSIS
-.B t
-[\fB\-l\fR]
-[\fB\-c\fR \f\\'Title of your note'\fR]
-[\fB\-e\fR \f\index\fR]
-
+.nf
+.fam C
+\fBt\fP <command>
+.fam T
+.fi
+.fam T
+.fi
 .SH DESCRIPTION
-.B t
-a simple utility to manage your notes using Markdown
-
-.SH OPTIONS
-
-.TP
-.B \-l 
-List all notes created by the modification date
-
-.TP
-.BR \fB\-c\fR \ 'Title\ of\ your\ note'
-Create a new note using the title you specified or
-generate one using the current time
-
-.TP
-.BR \-e \ \f\index\fR
-Edit a note fetching by it's index where zero it's 
-the most recent note
-
-.SH LICENSE
-
-t is licensed under GNU GPL v3. You can get yourself a copy on LICENSE file.
-
+\fBt\fP manage notes for you using git and your editor of choice. It will
+store notes at your home directory 'notes' folder. 
+.SH COMMANDS
+There's three commands avaiable for `\fBt\fP`. *Create*, *List* and *Edit*
+.RS
+.IP \(bu 3
+create <Title>
+.PP
+.nf
+.fam C
+        It will use the supplied title to create a new note on your
+        NOTE_DIR or will generate a title using the current date-time.
+.fam T
+.fi
+.IP \(bu 3
+list
+.PP
+.nf
+.fam C
+        List all notes by descending order
+.fam T
+.fi
+.IP \(bu 3
+edit <Index>
+.PP
+.nf
+.fam C
+        Edit a note by the giving index (by descending order). If no
+        supplied index, will edit the last created note.
+.fam T
+.fi
 .SH AUTHORS
-
-t is an free and open source project. It's being maintained by Pedro Lucas Porcellis <pedrolucasporcellis@gmail.com>
-and hosted on https://git.sr.ht/~porcellis/t.
+`\fBt\fP` is maintained by Pedro Lucas Porcellis <porcellis@eletrotupi.com>
+and you can get yourself a copy at https://git.sr.ht/~porcellis/\fBt\fP
+.SH CONTRIBUTING
+You can send patches, file bugs and discuss the project by sending an
+email to <porcellis@eletrotupi.com>

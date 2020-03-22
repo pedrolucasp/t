@@ -1,0 +1,27 @@
+NAME
+  t - The simplest note taker
+SYNOPSIS
+  t <command>
+DESCRIPTION
+  t manage notes for you using git and your editor of choice. It will
+  store notes at your home directory 'notes' folder. 
+COMMANDS
+  There's three commands avaiable for `t`. *Create*, *List* and *Edit*
+
+    * create <Title>
+    
+        It will use the supplied title to create a new note on your
+        NOTE_DIR or will generate a title using the current date-time.
+    * list
+    
+        List all notes by descending order
+    * edit <Index>
+
+        Edit a note by the giving index (by descending order). If no
+        supplied index, will edit the last created note.
+AUTHORS
+  `t` is maintained by Pedro Lucas Porcellis <porcellis@eletrotupi.com>
+  and you can get yourself a copy at https://git.sr.ht/~porcellis/t
+CONTRIBUTING
+  You can send patches, file bugs and discuss the project by sending an
+  email to <porcellis@eletrotupi.com>
