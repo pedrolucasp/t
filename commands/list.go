@@ -30,8 +30,8 @@ func List(config config.TConfig) error {
 
 	fmt.Println(Bold("\n \t Your notes\n\n"))
 
-	for _, note := range notes {
-		fmt.Printf("%s (%s)\n", Bold(note.Title()), Faint(note.UpdatedAt()).BrightYellow())
+	for index, note := range notes {
+		fmt.Printf("[#%d] %s (%s)\n", index, Bold(note.Title()), Faint(note.UpdatedAt()).BrightYellow())
 
 		f, err := os.Open(note.Path)
 		check(err)
