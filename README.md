@@ -23,13 +23,14 @@ note to the configured git server. That's it.
 
 ## Usage
 
-`t` is POSIX compliant, meaning that it uses a letter to handle it's actions.
+`t` has a small set of commands:
 
-- `l` will list your notes by it's modification date
-- `c` will create a new note using the current date. You can supply
+- `list` or `l` will list your notes by it's modification date
+- `create` or `c` will create a new note using the current date. You can supply
 a title in quoted strings
-- `e` will edit a note, by default it will edit the last one. You can
+- `edit` or `e` will edit a note, by default it will edit the last one. You can
 supply a position of the index you want to edit.
+- `show` or `s` will pipe the note to [glow](https://github.com/charmbracelet/glow)
 
 You can check the man page `man t` if you need any help.
 
@@ -44,6 +45,9 @@ So open your favorite terminal and fire these commands:
 
 If you have any interest in packaging this software to your distro of
 choice, please let me know, so I can update the steps here.
+
+**Note**: By now, the `show` commands depends on 
+[glow](https://github.com/charmbracelet/glow) to be installed.
 
 ## Contributing
 
@@ -64,7 +68,8 @@ Send me your patches to my email at
 There's a lot of things I want to implement on `t`, here is some of them:
 
 - Add a improved visualization when displaying notes
-- Support OS Pager when listing notes
+- Support OS Pager when listing notes (this can be achieved by `t list
+| less -r`)
 - Delete a note
 - Make setup through `t` (`t init` would create the notes repository, set a remote, etc).
 - Add PGP support for notes (this is a must)
