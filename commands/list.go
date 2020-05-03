@@ -36,10 +36,11 @@ func List(config config.TConfig) error {
 		f, err := os.Open(note.Path)
 		check(err)
 
-		b1 := make([]byte, 35)
+		b1 := make([]byte, 240)
 		n1, err := f.Read(b1)
 		check(err)
 		fmt.Printf("%s\n\n", string(b1[:n1]))
+		fmt.Printf("------------------------------------\n\n")
 	}
 
 	return err
