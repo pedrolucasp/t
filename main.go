@@ -99,6 +99,26 @@ func main() {
 
 		println("Finished editing ", note.Title())
 
+	case "show", "s":
+		var note models.Note
+		notes, _ := commands.BuildList(*configuration)
+
+		if len(os.Args) == 2 {
+			note = notes[0]
+		} else {
+			index, err := strconv.Atoi(os.Args[2])
+
+			if err == nil {
+				note = notes[index]
+			}
+		}
+
+		err = commands.Show(note)
+
+		if err != nil {
+			panic("There was some error when trying to display the note")
+		}
+
 	case "version", "v":
 		println("t ", Version)
 
