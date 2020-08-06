@@ -7,7 +7,9 @@ import (
 	"git.sr.ht/~porcellis/t/models"
 	"log"
 	"os"
+	"os/exec"
 	"strconv"
+	"strings"
 )
 
 var Version = "0.1.0"
@@ -68,7 +70,28 @@ func main() {
 		fmt.Println(fmt.Sprintf("Note created %s", note.Name))
 
 	case "list", "l":
-		commands.List(*configuration)
+		content, err := commands.List(*configuration)
+
+		if err != nil {
+			panic("We could not fetch your notes")
+		}
+
+		pager := os.Getenv("PAGER")
+
+		if pager == "" {
+			// This options display control chars as raw
+			pager = "less -r"
+		}
+
+		pagerCommand := strings.Split(pager, " ")
+
+		cmd := exec.Command(pagerCommand[0], pagerCommand[1:]...)
+		cmd.Stdin = strings.NewReader(content)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+
+		cmd.Run()
+
 	case "edit", "e":
 		var note models.Note
 		notes, _ := commands.BuildList(*configuration)

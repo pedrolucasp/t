@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"git.sr.ht/~porcellis/t/config"
 	"git.sr.ht/~porcellis/t/models"
 	. "github.com/logrusorgru/aurora"
@@ -17,21 +16,22 @@ func check(e error) {
 	}
 }
 
-func List(config config.TConfig) error {
+func List(config config.TConfig) (string, error) {
 	var (
-		err error
+		err     error
+		content string
 	)
 
 	notes, err := BuildList(config)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	fmt.Println(Bold("\n \t Your notes\n\n"))
+	content += Sprintf(Bold("\n \t Your notes\n\n"))
 
 	for index, note := range notes {
-		fmt.Printf("[#%d] %s (%s)\n", index, Bold(note.Title()), Faint(note.UpdatedAt()).BrightYellow())
+		content += Sprintf("[#%d] %s (%s)\n", index, Bold(note.Title()), Faint(note.UpdatedAt()).BrightYellow())
 
 		f, err := os.Open(note.Path)
 		check(err)
@@ -39,11 +39,11 @@ func List(config config.TConfig) error {
 		b1 := make([]byte, 240)
 		n1, err := f.Read(b1)
 		check(err)
-		fmt.Printf("%s\n\n", string(b1[:n1]))
-		fmt.Printf("------------------------------------\n\n")
+		content += Sprintf("%s\n\n", string(b1[:n1]))
+		content += Sprintf("------------------------------------\n\n")
 	}
 
-	return err
+	return content, err
 }
 
 func BuildList(config config.TConfig) ([]models.Note, error) {

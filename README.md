@@ -68,8 +68,8 @@ Send me your patches to my email at
 There's a lot of things I want to implement on `t`, here is some of them:
 
 - Add a improved visualization when displaying notes
-- Support OS Pager when listing notes (this can be achieved by `t list
-| less -r`)
+- ~~Support OS Pager when listing notes (this can be achieved by `t list
+| less -r`)~~
 - Delete a note
 - Make setup through `t` (`t init` would create the notes repository, set a remote, etc).
 - Add PGP support for notes (this is a must)
