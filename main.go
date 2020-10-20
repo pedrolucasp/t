@@ -142,6 +142,26 @@ func main() {
 			panic("There was some error when trying to display the note")
 		}
 
+	case "share", "sh":
+		var note models.Note
+		notes, _ := commands.BuildList(*configuration)
+
+		if len(os.Args) == 2 {
+			note = notes[0]
+		} else {
+			index, err := strconv.Atoi(os.Args[2])
+
+			if err == nil {
+				note = notes[index]
+			}
+		}
+
+		err = commands.Share(*configuration, note)
+
+		if err != nil {
+			panic(fmt.Sprintf("There was some error when trying to share the note, %s", err))
+		}
+
 	case "version", "v":
 		println("t ", Version)
 
