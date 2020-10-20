@@ -7,7 +7,7 @@ import (
 )
 
 func Sync(config config.TConfig) error {
-	cmd := exec.Command("git", "-C", config.BasePath, "push", config.GitRemote, "-u", "--quiet")
+	cmd := exec.Command("git", "-C", config.BasePath, "push", config.Sync.Remote, "-u", "--quiet")
 	cmd.Stdin = nil
 	cmd.Stdout = os.NewFile(0, os.DevNull)
 	cmd.Stderr = os.Stderr

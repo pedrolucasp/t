@@ -5,14 +5,16 @@ PKGPATH = .go/src/$(PKGNAME)
 PREFIX?=/usr/local
 _INSTDIR=$(DESTDIR)$(PREFIX)
 BINDIR?=$(_INSTDIR)/bin
+SHAREDIR?=$(_INSTDIR)/share/t
 MANDIR?=$(_INSTDIR)/share/man
 
 all: t doc
 
 install: all
-	mkdir -m755 -p $(BINDIR) $(MANDIR)/man1
+	mkdir -m755 -p $(BINDIR) $(MANDIR)/man1 $(SHAREDIR)
 	install -m755 t $(BINDIR)/t
 	install -m644 docs/t.1 $(MANDIR)/man1/t.1
+	install -m644 config/t.conf $(SHAREDIR)
 
 .go:
 		mkdir -p $(dir $(PKGPATH))
